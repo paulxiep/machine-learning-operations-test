@@ -29,8 +29,8 @@ def synthesize(range_value):
         return np.vectorize(lambda x: datetime.datetime.fromtimestamp(x - random.randrange(0, 60 * 60 * 24 * 365))) \
             (np.zeros(N_DATA) + datetime.datetime.now().timestamp())
     elif isinstance(range_value, tuple):
-        x = np.linspace(0, range_value[0] + 2 * range_value[1], N_DATA)
-        return np.vectorize(skew_norm_pdf(range_value[0], range_value[1]))(x)
+        return np.vectorize(skew_norm_pdf(range_value[0], range_value[1]))\
+                    (np.random.random(N_DATA) * (range_value[0] + 2 * range_value[1]))
     elif isinstance(range_value, int):
         return np.random.randint(0, range_value, N_DATA)
     else:
@@ -42,4 +42,4 @@ def synthesize_restaurant_df():
 
 
 if __name__ == '__main__':
-    synthesize_restaurant_df().to_csv('test_df.csv')
+    synthesize_restaurant_df().to_csv('test_synthesize_df.csv')
