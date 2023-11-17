@@ -1,4 +1,4 @@
-N_DATA = 100000
+N_DATA = 20000
 COLUMNS = ['order_acknowledged_at',
            'order_ready_at',
            'order_value_gbp',

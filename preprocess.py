@@ -28,7 +28,7 @@ def preprocess(df):
        'prep_time_seconds']]
 
 
-def post_split_process(df_train, df_test, prep_mean=None):
+def post_split_process(df_train, df_test=None, prep_mean=None):
     @lru_cache
     def get_prep_mean():
         if prep_mean is None:
@@ -36,19 +36,40 @@ def post_split_process(df_train, df_test, prep_mean=None):
         else:
             return prep_mean
 
-    return tuple([*get_xy(df_train.merge(get_prep_mean(),
-                                         how='left', on='restaurant_id', suffixes=('', '1'))),
-                  *get_xy(df_test.merge(get_prep_mean(),
-                                        how='left', on='restaurant_id', suffixes=('', '1'))), get_prep_mean()])
+    if df_test is not None:
+        return tuple([*get_xy(df_train.merge(get_prep_mean(),
+                                             how='left', on='restaurant_id', suffixes=('', '1'))),
+                      *get_xy(prepare_test_data(df_test, get_prep_mean())), get_prep_mean()])
+    else:
+        return tuple([*get_xy(df_train.merge(get_prep_mean(),
+                                             how='left', on='restaurant_id', suffixes=('', '1'))), get_prep_mean()])
 
 
 def get_xy(df, y_col='prep_time_seconds'):
     return df.drop(y_col, axis=1), df[y_col]
 
 
-def prepare_data(prep_mean=None):
+def prepare_dummy_data(prep_mean=None):
+    '''
+    Prepare synthetic data with proper train/test split.
+    '''
     return post_split_process(*train_test_split(preprocess(synthesize_restaurant_df()), random_state=0),
                               prep_mean=prep_mean)
+
+
+def prepare_test_data(data, prep_mean, dropna=False):
+    if dropna:
+        return data.merge(prep_mean,
+                      how='left', on='restaurant_id', suffixes=('', '1')).dropna()
+
+
+@lru_cache
+def prepare_dummy_model_data():
+    '''
+    Prepare synthetic data without splitting into train/test,
+    used to create dummy model
+    '''
+    return post_split_process(preprocess(synthesize_restaurant_df()))
 
 
 if __name__ == '__main__':

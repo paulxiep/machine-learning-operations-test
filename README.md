@@ -14,3 +14,5 @@ Fork this repo and make this model ready to deploy on GCP on any suitable servic
 2023-11-17 22:18: Added module to mimic the preprocessing in the jupyter notebook.
 
 2023-11-17 22.40: Added 2nd part of preprocess for feature set 2.
+
+2023-11-18 01:06: Prepared dummy model modules and model saving functionalities (Stacking doesn't work yet)
