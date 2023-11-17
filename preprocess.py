@@ -1,4 +1,6 @@
 import pandas as pd
+from functools import lru_cache
+from sklearn.model_selection import train_test_split
 
 from synthesize_data import synthesize_restaurant_df
 
@@ -25,8 +27,23 @@ def preprocess(df):
        'prep_time_seconds']]
 
 
+def post_split_process(df_train, df_test):
+    @lru_cache
+    def get_prep_mean():
+        return df_train.groupby('restaurant_id').prep_time_seconds.mean()
+
+    return tuple([*get_xy(df_train.merge(get_prep_mean(),
+                    how='left', on='restaurant_id', suffixes=('', '1'))),
+                *get_xy(df_test.merge(get_prep_mean(),
+                    how='left', on='restaurant_id', suffixes=('', '1'))), get_prep_mean()])
+
+
 def get_xy(df, y_col='prep_time_seconds'):
     return df.drop(y_col, axis=1), df[y_col]
+
+
+def prepare_data():
+    return post_split_process(*train_test_split(preprocess(synthesize_restaurant_df()), random_state=0))
 
 
 if __name__ == '__main__':

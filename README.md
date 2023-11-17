@@ -12,3 +12,5 @@ Fork this repo and make this model ready to deploy on GCP on any suitable servic
 2023-11-17 21:53: Added data synthesizer to somewhat mimic the data in jupyter notebook.
 
 2023-11-17 22:18: Added module to mimic the preprocessing in the jupyter notebook.
+
+2023-11-17 22.40: Added 2nd part of preprocess for feature set 2.
