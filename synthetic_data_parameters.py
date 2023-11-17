@@ -1,0 +1,28 @@
+N_DATA = 1000
+COLUMNS = ['order_acknowledged_at',
+           'order_ready_at',
+           'order_value_gbp',
+           'restaurant_id',
+           'number_of_items',
+           'prep_time_seconds',
+           'country',
+           'city',
+           'type_of_food']
+DTYPES = ['datetime',
+          'datetime',
+          'float',
+          'object',
+          'int',
+          'int',
+          'object',
+          'object',
+          'object']
+RANGE = [None,
+         None,
+         (26.5, 19.26),
+         3623,
+         (4, 2.4),
+         (700, 520),
+         4,
+         22,
+         83]
