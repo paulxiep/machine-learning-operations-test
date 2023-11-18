@@ -1,14 +1,15 @@
-import streamlit as st
 import pandas as pd
+import streamlit as st
 
-from synthesize_data.synthetic_data_parameters import COLUMNS, DTYPES
 from models.models import load_models
-from synthesize_data.preprocess import prepare_test_data, post_split_process, preprocess
+from synthesize_data.preprocess import prepare_test_data
+from synthesize_data.synthetic_data_parameters import COLUMNS, DTYPES
 
 st.set_page_config(
-        page_title='Restaurant Regression',
+    page_title='Restaurant Regression',
 )
 st.title('Simple restaurant data regression')
+
 
 def load_csv(test_data):
     test_data.seek(0)
@@ -18,11 +19,12 @@ def load_csv(test_data):
 def predict(test_data):
     models = load_models('models/dummy')
     return {k: v.predict(prepare_test_data(
-            load_csv(test_data),
-            pd.read_csv('models/prep_mean.csv')
-            ).drop(['prep_time_seconds'], axis=1, errors='ignore')
-        )
+        load_csv(test_data),
+        pd.read_csv('models/prep_mean.csv')
+    ).drop(['prep_time_seconds'], axis=1, errors='ignore')
+                         )
             for k, v in models.items()}
+
 
 def display_predictions(predictions):
     tabs = st.tabs(predictions.keys())
@@ -33,7 +35,8 @@ def display_predictions(predictions):
 
 
 st.json(dict(zip(COLUMNS, DTYPES)))
-test_data = st.file_uploader('Upload data that conforms to data dictionary above,\ncategories should be encoded as numbers\nand should not exceed number of categories of data in jupyter notebook.\nNumbers are likewise only tested with numbers in range of sample data.')
+test_data = st.file_uploader(
+    'Upload data that conforms to data dictionary above,\ncategories should be encoded as numbers\nand should not exceed number of categories of data in jupyter notebook.\nNumbers are likewise only tested with numbers in range of sample data.')
 
 if test_data is not None:
     display_predictions(predict(test_data))
