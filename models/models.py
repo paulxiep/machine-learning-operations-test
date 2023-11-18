@@ -11,13 +11,12 @@ from synthesize_data.preprocess import prepare_dummy_model_data
 def functional_model(model):
     '''
     wrap any machine learning model and override fit method to conform to functional programming style,
-    due to compatibility restrictioin with sklearn, positional argument is not allowed
+    due to compatibility restriction with sklearn, positional argument is not allowed in __init__
     '''
 
     class FunctionalModel(model):
         def __init__(self, **kwargs):
             super().__init__(**kwargs)
-            # self._model_type = super().__class__.__name__
 
         def fit(self, *args, **kwargs):
             super().fit(*args, **kwargs)
