@@ -3,15 +3,18 @@ from functools import lru_cache
 import pandas as pd
 from sklearn.model_selection import train_test_split
 
-from synthesize_data import synthesize_restaurant_df
+from synthesize_data.generate_synthetic_data import synthesize_restaurant_df
 
 
 def preprocess(df):
+    '''
+    preprocess for feature list 1
+    '''
     return pd.concat([
         pd.concat([
-            df['order_acknowledged_at'].dt.hour,
-            df['order_acknowledged_at'].dt.weekday,
-            df['order_acknowledged_at'].dt.day,
+            pd.to_datetime(df['order_acknowledged_at']).dt.hour,
+            pd.to_datetime(df['order_acknowledged_at']).dt.weekday,
+            pd.to_datetime(df['order_acknowledged_at']).dt.day,
             df['restaurant_id'].map(df.restaurant_id.value_counts())
         ], axis=1, keys=['hour', 'weekday', 'monthday', 'r_counts']),
         df], axis=1
@@ -25,7 +28,7 @@ def preprocess(df):
        'country',
        'type_of_food',
        'restaurant_id',
-       'prep_time_seconds']]
+       ] + ['prep_time_seconds'] * ('prep_time_seconds' in df.columns)]
 
 
 def post_split_process(df_train, df_test=None, prep_mean=None):
@@ -57,10 +60,16 @@ def prepare_dummy_data(prep_mean=None):
                               prep_mean=prep_mean)
 
 
-def prepare_test_data(data, prep_mean, dropna=False):
+def prepare_test_data(data, prep_mean, dropna=True):
+    '''
+    prepare test data from default format (as obtained form synthesize_restaurant_df)
+    into model-ready format, but without removing prep_time_seconds if exists
+    '''
     if dropna:
-        return data.merge(prep_mean,
+        return preprocess(data).merge(prep_mean,
                       how='left', on='restaurant_id', suffixes=('', '1')).dropna()
+    else:
+        raise Exception('NotImplementedError')
 
 
 @lru_cache
@@ -73,4 +82,4 @@ def prepare_dummy_model_data():
 
 
 if __name__ == '__main__':
-    preprocess(synthesize_restaurant_df()).to_csv('test_preprocess_df.csv')
+    preprocess(synthesize_restaurant_df(10)).to_csv('test_preprocess_df.csv')
