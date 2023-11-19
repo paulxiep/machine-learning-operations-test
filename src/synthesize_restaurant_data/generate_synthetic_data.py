@@ -1,11 +1,12 @@
 import datetime
 import random
+import os
 
 import numpy as np
 import pandas as pd
 from scipy import stats
 
-from synthesize_data.synthetic_data_parameters import RANGE, N_DATA, COLUMNS
+from synthesize_restaurant_data.synthetic_data_parameters import RANGE, N_DATA, COLUMNS
 
 
 def skew_norm_pdf(e=0, w=1, a=-1):
@@ -41,5 +42,5 @@ def synthesize_restaurant_df(n_data=N_DATA):
     return pd.DataFrame.from_dict(dict(zip(COLUMNS, map(lambda x: synthesize(x, n_data), RANGE))))
 
 
-if __name__ == '__main__':
-    synthesize_restaurant_df(10).to_csv('test_synthesize_df.csv', index=False)
+# if __name__ == '__main__':
+#     synthesize_restaurant_df(10).to_csv('test_synthesize_df.csv', index=False)

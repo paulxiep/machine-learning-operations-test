@@ -5,7 +5,7 @@ from catboost import CatBoostRegressor
 from sklearn.ensemble import StackingRegressor, RandomForestRegressor, GradientBoostingRegressor
 from xgboost import XGBRegressor
 
-from synthesize_data.preprocess import prepare_dummy_model_data
+from synthesize_restaurant_data.preprocess import prepare_dummy_model_data
 
 
 def functional_model(model):

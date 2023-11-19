@@ -3,7 +3,7 @@ from functools import lru_cache
 import pandas as pd
 from sklearn.model_selection import train_test_split
 
-from synthesize_data.generate_synthetic_data import synthesize_restaurant_df
+from synthesize_restaurant_data.generate_synthetic_data import synthesize_restaurant_df
 
 
 def preprocess(df):

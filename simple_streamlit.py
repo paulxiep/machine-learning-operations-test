@@ -1,9 +1,12 @@
 import pandas as pd
 import streamlit as st
+import sys, os
 
-from models.models import load_models
-from synthesize_data.preprocess import prepare_test_data
-from synthesize_data.synthetic_data_parameters import COLUMNS, DTYPES
+if os.path.join(os.getcwd(), 'src') not in sys.path:
+    sys.path.append(os.path.join(os.getcwd(), 'src'))
+from restaurant_models.models import load_models
+from synthesize_restaurant_data.preprocess import prepare_test_data
+from synthesize_restaurant_data.synthetic_data_parameters import COLUMNS, DTYPES
 
 st.set_page_config(
     page_title='Restaurant Regression',
