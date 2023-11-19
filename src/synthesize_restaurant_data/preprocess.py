@@ -66,8 +66,9 @@ def prepare_test_data(data, prep_mean, dropna=True):
     into model-ready format, but without removing prep_time_seconds if exists
     '''
     if dropna:
-        return preprocess(data).merge(prep_mean,
-                      how='left', on='restaurant_id', suffixes=('', '1')).dropna()
+        return preprocess(data).drop(['prep_time_seconds'], axis=1, errors='ignore').merge(prep_mean,
+                      how='left', on='restaurant_id', suffixes=('', '1')).dropna()\
+                    .rename(columns=lambda x: x if x!='prep_time_seconds' else 'prep_time_seconds1')
     else:
         raise Exception('NotImplementedError')
 
