@@ -13,6 +13,7 @@ Will require ```.env``` file with corresponding keys to run.
 
 ### Disclaimer
 
+0. Tested on Python 3.10
 1. While there were attempts to ensure compatibilities across platforms, the main code was only tested on Windows.
 2. As I only trained models from generated data, I didn't include the code for data cleaning, outlier removal, or data exploration.
 3. Most of the work here was focused on model deployment as a service, not on model retraining nor the whole of MLOps itself.
