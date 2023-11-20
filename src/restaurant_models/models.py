@@ -6,6 +6,7 @@ from sklearn.ensemble import StackingRegressor, RandomForestRegressor, GradientB
 from xgboost import XGBRegressor
 
 from synthesize_restaurant_data.preprocess import prepare_dummy_model_data
+from synthesize_restaurant_data.generate_synthetic_data import synthesize_restaurant_df
 
 
 def functional_model(model):
@@ -75,7 +76,7 @@ def get_dummy_models():
     }
 
 
-def train_dummy_data(dummy_models, dummy_data=prepare_dummy_model_data()[:2]):
+def train_dummy_data(dummy_models, dummy_data=prepare_dummy_model_data(synthesize_restaurant_df())[:2]):
     return {k: v.fit(*dummy_data) for k, v in dummy_models.items()}
 
 

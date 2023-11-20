@@ -74,6 +74,7 @@ x-airflow-common:
     _PIP_ADDITIONAL_REQUIREMENTS: ${_PIP_ADDITIONAL_REQUIREMENTS:-}
   volumes:
     - ${AIRFLOW_PROJ_DIR:-.}/results:/opt/airflow/results
+    - ${AIRFLOW_PROJ_DIR:-.}/data:/opt/airflow/data
     - ${AIRFLOW_PROJ_DIR:-.}/dags:/opt/airflow/dags
     - ${AIRFLOW_PROJ_DIR:-.}/models:/opt/airflow/models
     - ${AIRFLOW_PROJ_DIR:-.}/src/restaurant_models:/opt/airflow/dags/restaurant_models

@@ -2,7 +2,6 @@ from functools import lru_cache
 
 import pandas as pd
 from sklearn.model_selection import train_test_split
-
 from synthesize_restaurant_data.generate_synthetic_data import synthesize_restaurant_df
 
 
@@ -67,19 +66,20 @@ def prepare_test_data(data, prep_mean, dropna=True):
     '''
     if dropna:
         return preprocess(data).drop(['prep_time_seconds'], axis=1, errors='ignore').merge(prep_mean,
-                      how='left', on='restaurant_id', suffixes=('', '1')).dropna()\
-                    .rename(columns=lambda x: x if x!='prep_time_seconds' else 'prep_time_seconds1')
+                                                                                           how='left',
+                                                                                           on='restaurant_id',
+                                                                                           suffixes=('', '1')).dropna() \
+            .rename(columns=lambda x: x if x != 'prep_time_seconds' else 'prep_time_seconds1')
     else:
         raise Exception('NotImplementedError')
 
 
-@lru_cache
-def prepare_dummy_model_data():
+def prepare_dummy_model_data(restaurant_df):
     '''
     Prepare synthetic data without splitting into train/test,
     used to create dummy model
     '''
-    return post_split_process(preprocess(synthesize_restaurant_df()))
+    return post_split_process(preprocess(restaurant_df))
 
 
 if __name__ == '__main__':
