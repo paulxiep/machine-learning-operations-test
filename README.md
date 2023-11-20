@@ -5,7 +5,7 @@ A test for mid level Machine learninng operations (MLOps) for a company in Thail
 
 A _junior_ data scientist has prepared a prediction model ready to predict client's orders for a restaurant - given that a scientist has no prior knowledge on machine learning operations and bringing the models up for production, you, as a machine learning engineer, has to bring this model to live by yourself. Please *demonstrate* how would you do it. 
 
-Fork this repo and make this model ready to deploy on GCP on any suitable service of your choice
+Fork this repo and make this model ready to deploy on GCP on any suitable service of your choice.
 
 ### Important
 
@@ -15,11 +15,12 @@ Will require ```.env``` file with corresponding keys to run.
 
 1. While there were attempts to ensure compatibilities across platforms, the main code was only tested on Windows.
 2. As I only trained models from generated data, I didn't include the code for data cleaning, outlier removal, or data exploration.
+3. Most of the work here was focused on model deployment as a service, not on model retraining nor the whole of MLOps itself.
 
 ### Methods
 
 1. Streamlit: Simple, easy to use, web application tool suitable for small data application.
-2. Airflow Docker: While normally associated with data pipeline, Airflow can be adapted to schedule regular model predict/retraining service.
+2. Airflow Docker: While normally associated with data pipeline, Airflow can be adapted to schedule regular model predict/retraining service. This can be used in conjunction with DVC to manage model and data versioning.
 3. Flask API on Docker: I once used the company's own application in place of Flask to enable API on cloud. I'm a newbie to Flask itself and may not be familiar with security protocol. Nevertheless I made a working Flask API application, and can be tested with your own API call program or my streamlit program. This can be refined further as I get more familiar with Flask API.
 4. Kubernetes (not implemented): Once there's a packaged API software on Docker, one can attempt to deploy it on cloud using orchestrator and load manager like Kubernetes. Where I once worked at this duty fell to a Backend Developer and admittedly I didn't get to do it. I won't shy away if the duty falls to me but for the time being it is not yet my expertise.
 
@@ -48,4 +49,4 @@ Will require ```.env``` file with corresponding keys to run.
 
 2023-11-19 16:10: Method 3 (Flask Web API) up and simplified running steps.
 
-2023-11-20 11:50: Method 2 training DAG up and final notes before submission.
+2023-11-20 12:30: Method 2 training DAG up and final notes before submission.
